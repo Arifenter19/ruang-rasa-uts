@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RuangRasa✨ - Ruang Curhat Anonim Estetik & Aman</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brandPink: '#ff2a85',
+                        brandPurple: '#8b5cf6',
+                        brandCyan: '#06b6d4',
+                        brandEmerald: '#10b981',
+                        brandAmber: '#f59e0b',
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite ease-in-out',
+                        'float': 'float 4s ease-in-out infinite',
+                        'sparkle': 'sparkle 2s infinite ease-in-out',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 15px var(--accent-glow), 0 0 30px rgba(139, 92, 246, 0.2)' },
+                            '50%': { boxShadow: '0 0 25px var(--accent-glow), 0 0 50px rgba(6, 182, 212, 0.4)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        sparkle: {
+                            '0%, 100%': { opacity: 0.3, transform: 'scale(0.9)' },
+                            '50%': { opacity: 1, transform: 'scale(1.1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* ==========================================
+           DYNAMIC THEME VARIABLES & MODE STYLES
+           ========================================== */
+        :root {
+            /* Default Accent: Pink */
+            --accent-main: #ff2a85;
+            --accent-hover: #e01f72;
+            --accent-glow: rgba(255, 42, 133, 0.4);
+            --accent-bg-subtle: rgba(255, 42, 133, 0.12);
+            --accent-border: rgba(255, 42, 133, 0.3);
+            --accent-gradient: linear-gradient(135deg, #ff2a85 0%, #8b5cf6 50%, #06b6d4 100%);
+        }
+
+        /* Accent Color Themes */
+        html[data-accent="purple"] {
+            --accent-main: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --accent-glow: rgba(139, 92, 246, 0.4);
+            --accent-bg-subtle: rgba(139, 92, 246, 0.15);
+            --accent-border: rgba(139, 92, 246, 0.35);
+            --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #3b82f6 100%);
+        }
+        html[data-accent="cyan"] {
+            --accent-main: #06b6d4;
+            --accent-hover: #0891b2;
+            --accent-glow: rgba(6, 182, 212, 0.4);
+            --accent-bg-subtle: rgba(6, 182, 212, 0.15);
+            --accent-border: rgba(6, 182, 212, 0.35);
+            --accent-gradient: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #10b981 100%);
+        }
+        html[data-accent="emerald"] {
+            --accent-main: #10b981;
+            --accent-hover: #059669;
+            --accent-glow: rgba(16, 185, 129, 0.4);
+            --accent-bg-subtle: rgba(16, 185, 129, 0.15);
+            --accent-border: rgba(16, 185, 129, 0.35);
+            --accent-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #3b82f6 100%);
+        }
+        html[data-accent="amber"] {
+            --accent-main: #f59e0b;
+            --accent-hover: #d97706;
+            --accent-glow: rgba(245, 158, 11, 0.4);
+            --accent-bg-subtle: rgba(245, 158, 11, 0.15);
+            --accent-border: rgba(245, 158, 11, 0.35);
+            --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #8b5cf6 100%);
+        }
+
+        /* Base Body Dark Mode */
+        html.dark body {
+            background-color: #0b0b14;
+            color: #f3f4f6;
+        }
+
+        /* Base Body Light Mode */
+        html:not(.dark) body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+
+        body {
+            overflow-x: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Dynamic Theme Utility Classes */
+        .dynamic-accent-bg { background-color: var(--accent-main) !important; }
+        .dynamic-accent-text { color: var(--accent-main) !important; }
+        .dynamic-accent-border { border-color: var(--accent-main) !important; }
+        .dynamic-accent-gradient { background: var(--accent-gradient) !important; }
+        .dynamic-accent-subtle-bg { background-color: var(--accent-bg-subtle) !important; }
+        .dynamic-accent-glow { box-shadow: 0 0 20px var(--accent-glow) !important; }
+
+        /* Glassmorphic Panel - Dark Mode */
+        html.dark .glass-panel {
+            background: rgba(19, 19, 38, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Glassmorphic Panel - Light Mode */
+        html:not(.dark) .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 10px 30px -10px rgba(148, 163, 184, 0.12);
+        }
+
+        /* Glassmorphic Cards - Dark Mode */
+        html.dark .glass-card {
+            background: rgba(22, 22, 44, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        html.dark .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-border);
+            box-shadow: 0 14px 35px -10px var(--accent-glow);
+        }
+
+        /* Glassmorphic Cards - Light Mode */
+        html:not(.dark) .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        html:not(.dark) .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-main);
+            box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Inputs in Light & Dark Mode */
+        html:not(.dark) input, html:not(.dark) select, html:not(.dark) textarea {
+            background-color: #f1f5f9 !important;
+            color: #0f172a !important;
+            border-color: #cbd5e1 !important;
+        }
+        html:not(.dark) input::placeholder, html:not(.dark) textarea::placeholder {
+            color: #64748b !important;
+        }
+
+        /* Card Custom Gradient Borders */
+        .theme-pink { border-top: 4px solid #ff2a85; }
+        .theme-purple { border-top: 4px solid #8b5cf6; }
+        .theme-cyan { border-top: 4px solid #06b6d4; }
+        .theme-gold { border-top: 4px solid #f59e0b; }
+        .theme-emerald { border-top: 4px solid #10b981; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #64748b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-main); }
+
+        /* Floating reaction particles animation */
+        @keyframes floatUpFade {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            50% { opacity: 0.8; transform: translateY(-35px) scale(1.3) rotate(-10deg); }
+            100% { opacity: 0; transform: translateY(-70px) scale(0.6) rotate(10deg); }
+        }
+
+        .floating-emoji {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUpFade 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            font-size: 1.5rem;
+            z-index: 50;
+        }
+
+        /* Soundwave indicator animation */
+        .sound-wave span {
+            display: inline-block;
+            width: 3px;
+            height: 12px;
+            background-color: var(--accent-main);
+            border-radius: 3px;
+            animation: wave 1.2s infinite ease-in-out;
+        }
+        .sound-wave span:nth-child(2) { animation-delay: 0.2s; height: 16px; background-color: #8b5cf6; }
+        .sound-wave span:nth-child(3) { animation-delay: 0.4s; height: 10px; background-color: #06b6d4; }
+        
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.4); }
+            50% { transform: scaleY(1.2); }
+        }
+
+        .modal-active {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative flex flex-col justify-between selection:bg-brandPink selection:text-white">
+
+    <!-- Interactive Ambient Canvas Background -->
+    <canvas id="bgCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- TOP ANNOUNCEMENT TICKER -->
+    <div id="topTickerBar" class="relative z-20 bg-gradient-to-r from-purple-900/60 via-pink-900/60 to-cyan-900/60 border-b border-white/10 text-xs py-1.5 px-4 text-center overflow-hidden transition-colors duration-300">
+        <div class="flex items-center justify-center gap-3 animate-pulse">
+            <span class="dynamic-accent-bg text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">Live</span>
+            <span class="text-white dark:text-pink-200 font-medium tracking-wide">
+                ✨ Selamat datang di RuangRasa! • Ruang aman luapkan rasa tanpa dihakimi • 100% Anonim & Rahasia • Bagikan pelukan & semangatmu hari ini!
+            </span>
+        </div>
+    </div>
+
+    <!-- MAIN NAVBAR (WITH COLOR PALETTE & LIGHT/DARK TOGGLE) -->
+    <header class="sticky top-0 z-40 glass-panel border-b backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
+            
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="scrollToTop()">
+                <div class="w-11 h-11 rounded-2xl dynamic-accent-gradient p-0.5 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                    <div class="w-full h-full bg-slate-900 dark:bg-brandDark rounded-[14px] flex items-center justify-center">
+                        <i class="fa-solid fa-heart-pulse dynamic-accent-text text-xl animate-pulse"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white font-sans">
+                            Ruang<span class="dynamic-accent-text">Rasa.</span>✨
+                        </h1>
+                        <span class="text-[10px] font-bold dynamic-accent-subtle-bg dynamic-accent-text border border-current px-2 py-0.5 rounded-full">Tenanglah!!</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 dark:text-gray-400 hidden xs:block">Ruang Aman Luapkan Beban Hati</p>
+                </div>
+            </div>
+
+            <!-- Header Action Controls & Color Dots -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                
+                <!-- Color Theme Dots Palette Switcher -->
+                <div class="flex items-center gap-1.5 p-1.5 rounded-xl glass-panel border border-white/10" title="Ganti Warna Tampilan / Accent Theme">
+                    <button onclick="setAccentColor('pink')" class="w-4 h-4 rounded-full bg-[#ff2a85] hover:scale-125 transition-transform" title="Pink Theme"></button>
+                    <button onclick="setAccentColor('purple')" class="w-4 h-4 rounded-full bg-[#8b5cf6] hover:scale-125 transition-transform" title="Purple Theme"></button>
+                    <button onclick="setAccentColor('cyan')" class="w-4 h-4 rounded-full bg-[#06b6d4] hover:scale-125 transition-transform" title="Cyan Theme"></button>
+                    <button onclick="setAccentColor('emerald')" class="w-4 h-4 rounded-full bg-[#10b981] hover:scale-125 transition-transform" title="Emerald Theme"></button>
+                    <button onclick="setAccentColor('amber')" class="w-4 h-4 rounded-full bg-[#f59e0b] hover:scale-125 transition-transform" title="Amber Theme"></button>
+                </div>
+
+                <!-- SFX Sound Toggle -->
+                <button id="sfxBtn" onclick="toggleSFX()" title="Efek Suara Click" class="p-2.5 rounded-xl glass-panel text-slate-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10 transition">
+                    <i id="sfxIcon" class="fa-solid fa-volume-high dynamic-accent-text"></i>
+                </button>
+
+                <!-- Synthesized Rain BGM Button -->
+                <button id="bgmBtn" onclick="toggleBGM()" title="Putar Sound Ambient Hujan" class="flex items-center gap-2 px-3 py-2 rounded-xl glass-panel text-xs font-semibold text-slate-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10 transition">
+                    <div id="soundWaveIcon" class="sound-wave flex items-center gap-1 hidden">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <i id="bgmIcon" class="fa-solid fa-cloud-rain text-cyan-400 text-sm"></i>
+                    <span id="bgmText" class="hidden md:inline">Rain BGM</span>
+                </button>
+
+                <!-- Light / Dark Mode Toggle Button -->
+                <button id="themeToggleBtn" onclick="toggleThemeMode()" title="Ganti Mode Gelap / Terang" class="p-2.5 rounded-xl glass-panel text-amber-500 dark:text-amber-300 hover:bg-black/5 dark:hover:bg-white/10 transition">
+                    <i id="themeToggleIcon" class="fa-solid fa-sun text-sm sm:text-base"></i>
+                </button>
+
+                <!-- Curhat Acak / Gacha Button -->
+                <button onclick="openGachaModal()" class="hidden lg:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-purple-600/20 border border-purple-500/30 text-purple-600 dark:text-purple-300 text-xs font-semibold hover:bg-purple-600/30 transition">
+                    <i class="fa-solid fa-dice-five text-purple-500 text-sm"></i>
+                    <span>Curhat Acak</span>
+                </button>
+
+                <!-- Create Post CTA Button -->
+                <button onclick="openCreateModal()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl dynamic-accent-gradient text-white text-xs sm:text-sm font-bold shadow-lg hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all">
+                    <i class="fa-solid fa-plus text-sm"></i>
+                    <span class="hidden xs:inline">Tulis Curhat</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION & COMMUNITY VIBES -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 flex-grow">
+        
+        <!-- Hero Header Card -->
+        <div class="relative rounded-3xl glass-panel p-6 sm:p-10 mb-8 overflow-hidden text-center shadow-2xl">
+            <!-- Decorative Glow Spheres -->
+            <div class="absolute -top-24 -left-24 w-72 h-72 dynamic-accent-subtle-bg rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel dynamic-accent-text text-xs font-semibold mb-4 animate-float border border-current">
+                <i class="fa-solid fa-sparkles text-amber-400"></i> 4 Perenungan Terbagikan • 100% Anonymity
+            </span>
+
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4 max-w-3xl mx-auto leading-tight">
+                Menyelami Sunyi <br class="hidden sm:inline"/>
+                <span class="dynamic-accent-text">Membebaskan Nurani.</span> 💫
+            </h2>
+
+            <p class="text-slate-600 dark:text-gray-300 text-sm sm:text-base max-w-2xl mx-auto font-normal leading-relaxed mb-6">
+                Sebab seperti kata Seneca: "Kita lebih sering menderita dalam imajinasi daripada kenyataan." Ruang aman untuk merenung, berbagi cerita, dan meluapkan rasa tanpa dihakimi.
+            </p>
+
+            <!-- Status Perasaan Pengguna Hari Ini (Hug vs Semangat Progress) -->
+            <div class="max-w-xl mx-auto glass-card p-4 rounded-2xl border text-xs mb-4">
+                <div class="flex justify-between items-center mb-2 font-semibold">
+                    <span class="dynamic-accent-text flex items-center gap-1.5">
+                        <i class="fa-solid fa-heart-pulse"></i> Dynamic Stoic Balance:
+                    </span>
+                    <span id="moodStatsText" class="text-slate-700 dark:text-gray-300">38% Peluk • 62% Semangat</span>
+                </div>
+                <div class="w-full h-3 bg-slate-200 dark:bg-gray-800/80 rounded-full overflow-hidden p-0.5 border border-white/10 flex">
+                    <div id="moodBarHug" class="h-full dynamic-accent-bg rounded-full transition-all duration-700" style="width: 38%"></div>
+                    <div id="moodBarFire" class="h-full bg-gradient-to-r from-amber-500 to-cyan-500 rounded-full transition-all duration-700 ml-1" style="width: 62%"></div>
+                </div>
+            </div>
+
+            <!-- Daily Quote Penyejuk Hati -->
+            <div class="max-w-2xl mx-auto mt-6 glass-card p-4 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-3 text-left">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl dynamic-accent-subtle-bg dynamic-accent-text flex items-center justify-center text-lg shrink-0">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div>
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-pink-400">💡 Kata Penyejuk Hati</div>
+                        <p id="dailyQuoteText" class="text-xs sm:text-sm text-slate-800 dark:text-gray-200 italic font-medium transition-opacity duration-300">
+                            "Tidak apa-apa merasa lelah, istirahatlah sebentar. Esok hari adalah lembaran baru."
+                        </p>
+                    </div>
+                </div>
+                <button onclick="generateNewQuote()" class="shrink-0 px-3 py-1.5 rounded-lg glass-panel hover:bg-black/5 dark:hover:bg-white/10 dynamic-accent-text text-xs font-semibold border transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Acak Quote
+                </button>
+            </div>
+        </div>
+
+        <!-- SEARCH, SORT & CATEGORY FILTER CONTROL BAR -->
+        <div class="space-y-4 mb-8">
+            
+            <!-- Search & Sort Controls -->
+            <div class="flex flex-col md:flex-row gap-3 items-center justify-between">
+                
+                <!-- Live Search Box -->
+                <div class="relative w-full md:w-96">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Cari curhatan berdasarkan kata kunci..." 
+                        class="w-full pl-10 pr-10 py-2.5 rounded-xl glass-panel border text-xs sm:text-sm focus:outline-none transition">
+                    <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Sort & Mobile Gacha Row -->
+                <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+                    
+                    <button onclick="openGachaModal()" class="lg:hidden flex-1 py-2.5 px-3 rounded-xl bg-purple-600/20 border border-purple-500/30 text-purple-600 dark:text-purple-300 text-xs font-semibold text-center">
+                        <i class="fa-solid fa-dice-five"></i> Curhat Acak
+                    </button>
+
+                    <!-- Sort Select Dropdown -->
+                    <div class="relative flex-1 sm:flex-none">
+                        <select id="sortSelect" onchange="renderPosts()" 
+                            class="w-full px-4 py-2.5 rounded-xl glass-panel border text-xs sm:text-sm text-slate-800 dark:text-gray-200 focus:outline-none cursor-pointer">
+                            <option value="newest">⏰ Terbaru</option>
+                            <option value="popular">🔥 Paling Hot</option>
+                            <option value="hugs">🤗 Butuh Pelukan</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none text-xs" id="categoryPillsContainer">
+                <!-- Dynamically generated pills -->
+            </div>
+        </div>
+
+        <!-- POSTS FEED GRID CONTAINER -->
+        <div id="postsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic Post Cards injected here -->
+        </div>
+
+        <!-- Empty State View -->
+        <div id="emptyState" class="hidden text-center py-16 glass-panel rounded-3xl border my-8">
+            <div class="w-20 h-20 mx-auto rounded-full dynamic-accent-subtle-bg flex items-center justify-center dynamic-accent-text text-3xl mb-4">
+                <i class="fa-solid fa-ghost"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Belum Ada Curhatan Di Sini</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-xs sm:text-sm max-w-md mx-auto mb-6">
+                Jadilah yang pertama membagikan cerita atau keluh kesahmu! Semuanya 100% anonim dan aman.
+            </p>
+            <button onclick="openCreateModal()" class="px-5 py-2.5 rounded-xl dynamic-accent-gradient text-white text-xs font-bold shadow-lg">
+                <i class="fa-solid fa-pen-nib mr-2"></i> Tulis Curhat Pertama
+            </button>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 glass-panel border-t py-8 text-xs text-slate-500 dark:text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div>
+                <p class="font-semibold text-slate-700 dark:text-gray-300 mb-1">© 2026 RuangRasa. • Dibuat untuk UTS IMK & Pemrograman Web</p>
+                <p class="text-[11px] text-slate-400 dark:text-gray-500">100% Anonim & Aman • Reset Data Demo Kapan Saja</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="resetDemoData()" class="dynamic-accent-text hover:underline font-medium">
+                    <i class="fa-solid fa-rotate-left mr-1"></i> Reset Data Demo
+                </button>
+                <span class="text-gray-400">•</span>
+                <button onclick="scrollToTop()" class="hover:text-slate-900 dark:hover:text-white transition">
+                    <i class="fa-solid fa-arrow-up mr-1"></i> Ke Atas
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: TULIS CURHAT BARU -->
+    <div id="createModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+        <div class="w-full max-w-lg glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl transform scale-95 transition-transform duration-300 relative overflow-hidden" id="createModalCard">
+            
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl dynamic-accent-subtle-bg dynamic-accent-text flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-feather-pointed"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-extrabold text-slate-900 dark:text-white">Tulis Curhat Baru ✨</h3>
+                        <p class="text-xs text-slate-500 dark:text-gray-400">Ekspresikan perasaanmu secara anonim</p>
+                    </div>
+                </div>
+                <button onclick="closeCreateModal()" class="w-8 h-8 rounded-full glass-panel flex items-center justify-center text-gray-400 hover:text-slate-900 dark:hover:text-white transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="createForm" onsubmit="submitNewPost(event)" class="space-y-4">
+                
+                <!-- Avatar & Nickname Selector Row -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-2">Pilih Avatar & Nama Anonim:</label>
+                    <div class="flex items-center gap-2 mb-3 overflow-x-auto pb-1" id="avatarPickerContainer">
+                        <!-- JS populated avatars -->
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="nicknameInput" required maxlength="30" placeholder="Contoh: Anonim 🐱"
+                            class="flex-1 px-4 py-2.5 rounded-xl glass-panel border text-xs sm:text-sm focus:outline-none">
+                        <button type="button" onclick="generateRandomNick()" class="px-3.5 py-2.5 rounded-xl bg-purple-600/20 border border-purple-500/30 text-purple-600 dark:text-purple-300 text-xs font-semibold hover:bg-purple-600/30 transition shrink-0" title="Acak Nama">
+                            <i class="fa-solid fa-dice"></i> Acak
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category & Theme Selection Grid -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1.5">Kategori:</label>
+                        <select id="categorySelect" class="w-full px-3 py-2.5 rounded-xl glass-panel border text-xs focus:outline-none cursor-pointer">
+                            <option value="Kuliah">🎓 Kuliah</option>
+                            <option value="Asmara">💌 Asmara</option>
+                            <option value="Overthinking">🧠 Overthinking</option>
+                            <option value="Karir">💼 Karir</option>
+                            <option value="CurhatLucu">🤣 Curhat Lucu</option>
+                            <option value="MentalHealth">🌱 Mental Health</option>
+                            <option value="Random">🌈 Random</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 dark:text-gray-300 mb-1.5">Tema Kartu:</label>
+                        <select id="themeSelect" class="w-full px-3 py-2.5 rounded-xl glass-panel border text-xs focus:outline-none cursor-pointer">
+                            <option value="pink">💖 Neon Pink</option>
+                            <option value="purple">🔮 Cyber Violet</option>
+                            <option value="cyan">🌊 Electric Cyan</option>
+                            <option value="gold">🌅 Sunset Gold</option>
+                            <option value="emerald">🌿 Mint Emerald</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Confession Textarea -->
+                <div>
+                    <div class="flex justify-between items-center mb-1.5">
+                        <label class="text-xs font-semibold text-slate-700 dark:text-gray-300">Isi Curhatanmu:</label>
+                        <span id="charCounter" class="text-[11px] text-gray-400">0 / 500</span>
+                    </div>
+                    <textarea id="postContentInput" required rows="4" maxlength="500" oninput="updateCharCounter()" placeholder="Tuliskan apa saja yang membebani pikiran atau membuatmu senang hari ini..."
+                        class="w-full p-4 rounded-xl glass-panel border text-xs sm:text-sm focus:outline-none resize-none"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3 rounded-xl dynamic-accent-gradient text-white font-bold text-sm shadow-lg hover:opacity-90 hover:scale-[1.01] active:scale-95 transition">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> Kirim Curhatan Anonim
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: GACHA / CURHAT ACAK TAROT STYLE -->
+    <div id="gachaModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+        <div class="w-full max-w-md glass-panel rounded-3xl border p-6 sm:p-8 shadow-2xl text-center relative overflow-hidden transform scale-95 transition-transform duration-300">
+            
+            <button onclick="closeGachaModal()" class="absolute right-4 top-4 w-8 h-8 rounded-full glass-panel flex items-center justify-center text-gray-400 hover:text-slate-900 dark:hover:text-white transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-600 dark:text-purple-300 text-xs font-semibold mb-4 border border-purple-500/30">
+                <i class="fa-solid fa-dice-five animate-spin"></i> Tarot Curhat Gacha
+            </div>
+
+            <h3 class="text-xl font-extrabold text-slate-900 dark:text-white mb-2">Curhatan Acak Pilihan Takdir 🎲</h3>
+            <p class="text-xs text-slate-500 dark:text-gray-400 mb-6">Dengarkan kisah tersembunyi dari seseorang di luar sana.</p>
+
+            <!-- Gacha Card View -->
+            <div id="gachaCardContainer" class="p-6 rounded-2xl glass-card border-t-4 border-purple-500 mb-6 text-left relative min-h-[160px] flex flex-col justify-between">
+                <!-- Populated via JS -->
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="rollGacha()" class="flex-1 py-2.5 rounded-xl bg-purple-600/20 border border-purple-500/30 text-purple-600 dark:text-purple-300 text-xs font-semibold hover:bg-purple-600/30 transition">
+                    <i class="fa-solid fa-shuffle mr-1"></i> Acak Lagi
+                </button>
+                <button onclick="closeGachaModal()" class="flex-1 py-2.5 rounded-xl dynamic-accent-gradient text-white text-xs font-bold shadow-md">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- MAIN JAVASCRIPT LOGIC -->
+    <script>
+        /* ==========================================
+           STATE & DEMO DATA PERSISTENCE
+           ========================================== */
+        const STORAGE_KEY = 'curhatyuk_posts_v2';
+        const ACCENT_KEY = 'curhatyuk_accent_color';
+        const MODE_KEY = 'curhatyuk_theme_mode';
+        
+        const SAMPLE_POSTS = [
+    {
+        id: 'demo-1',
+        avatar: '🧠',
+        nickname: 'Anonim 🧠',
+        category: 'Overthinking',
+        theme: 'purple',
+        content: 'Kita lebih sering menderita dalam imajinasi dan ketakutan kita sendiri daripada dalam realitas yang sebenarnya. Berhentilah mencemaskan esok yang belum tentu tiba.',
+        timestamp: Date.now() - 3600000 * 1,
+        reactions: { hug: 34, fire: 50, coffee: 12, love: 42 },
+        comments: [
+            { id: 'c1', nickname: 'Anonim 🦉', text: 'Seneca vibes! Pengingat yang sangat tajam malam ini.', time: '30 menit lalu' }
+        ]
+    },
+    {
+        id: 'demo-2',
+        avatar: '⚡',
+        nickname: 'Anonim ⚡',
+        category: 'Kuliah',
+        theme: 'cyan',
+        content: 'Manusia tidak diukur dari seberapa jarang dia jatuh, tapi dari bagaimana dia bangkit setiap kali terjatuh. Deadline dan ekspektasi bukan alasan untuk kehilangan arah.',
+        timestamp: Date.now() - 3600000 * 2,
+        reactions: { hug: 18, fire: 45, coffee: 8, love: 22 },
+        comments: []
+    },
+    {
+        id: 'demo-3',
+        avatar: '🥀',
+        nickname: 'Anonim 🥀',
+        category: 'Asmara',
+        theme: 'pink',
+        content: 'Jangan pernah memprioritaskan seseorang yang hanya menjadikanmu sebagai pilihan pemanfaatan. Belajarlah mencintai kesendirianmu sebelum menuntut orang lain melakukannya.',
+        timestamp: Date.now() - 3600000 * 4,
+        reactions: { hug: 29, fire: 38, coffee: 15, love: 50 },
+        comments: []
+    },
+    {
+        id: 4,
+        avatar: '🌌',
+        nickname: 'Anonim 🌌',
+        category: 'MentalHealth',
+        theme: 'emerald',
+        content: 'Kadang, kedamaian jiwa baru bisa ditemukan ketika kita berhenti memaksakan segalanya sesuai keinginan dan mulai belajar menerima realita apa adanya.',
+        timestamp: Date.now() - 3600000 * 6,
+        reactions: { hug: 40, fire: 30, coffee: 20, love: 65 },
+        comments: []
+    }
+];
+
+        let posts = [];
+        let activeCategory = 'Semua';
+        let selectedAvatar = '🐱';
+        let isBgmPlaying = false;
+        let isSfxEnabled = true;
+
+        const AVATARS = ['🐱', '👻', '🐻', '👾', '🐼', '🌟', '🐰', '🦊', '🐸', '🦄'];
+        const RANDOM_NICKS = [
+            'Anonim 🐱', 'Anonim ☕', 'Anonim 🌟', 
+            'Anonim 👻', 'Anonim 🦊', 'Anonim 🐰', 
+            'Anonim 🐻', 'Anonim 👾', 'Anonim 🐸', 'Anonim 🦄'
+        ];
+
+        const DAILY_QUOTES = [
+            "Tidak apa-apa merasa lelah, istirahatlah sebentar. Esok hari adalah lembaran baru. 🌸",
+            "Kamu sudah berusaha hebat hari ini! Apapun hasilnya, banggalah pada dirimu sendiri. ✨",
+            "Perasaanmu valid. Jangan biarkan siapapun membuatmu merasa kecil. 💖",
+            "Badai pasti berlalu, pelangi menunggu di ujung jalanmu. Tetap bertahan ya! 🌈"
+        ];
+
+        const CATEGORIES = [
+            { id: 'Semua', label: 'Semua', icon: '✨' },
+            { id: 'Kuliah', label: 'Kuliah', icon: '🎓' },
+            { id: 'Asmara', label: 'Asmara', icon: '💌' },
+            { id: 'Overthinking', label: 'Overthinking', icon: '🧠' },
+            { id: 'Karir', label: 'Karir', icon: '💼' },
+            { id: 'CurhatLucu', label: 'Curhat Lucu', icon: '🤣' },
+            { id: 'Random', label: 'Random', icon: '🌈' }
+        ];
+
+        /* ==========================================
+           INITIALIZATION & THEME MODE / ACCENT LOGIC
+           ========================================== */
+        window.onload = function() {
+            initThemeMode();
+            initAccentColor();
+            initPosts();
+            initCategoryPills();
+            initAvatarPicker();
+            renderPosts();
+            initBgCanvas();
+            generateRandomNick();
+            updateMoodStats();
+        };
+
+        // Dark / Light Theme Mode Switcher
+        function initThemeMode() {
+            const savedMode = localStorage.getItem(MODE_KEY) || 'dark';
+            setThemeMode(savedMode);
+        }
+
+        function toggleThemeMode() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const newMode = isDark ? 'light' : 'dark';
+            setThemeMode(newMode);
+            playSFX('click');
+        }
+
+        function setThemeMode(mode) {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeToggleIcon');
+            const bgmBtn = document.getElementById('bgmBtn');
+
+            if (mode === 'dark') {
+                html.classList.add('dark');
+                icon.className = 'fa-solid fa-sun text-amber-300';
+            } else {
+                html.classList.remove('dark');
+                icon.className = 'fa-solid fa-moon text-slate-700';
+            }
+            localStorage.setItem(MODE_KEY, mode);
+        }
+
+        // Color Accent Palette Switcher (Pink, Purple, Cyan, Emerald, Amber)
+        function initAccentColor() {
+            const savedAccent = localStorage.getItem(ACCENT_KEY) || 'pink';
+            setAccentColor(savedAccent);
+        }
+
+        function setAccentColor(accentName) {
+            document.documentElement.setAttribute('data-accent', accentName);
+            localStorage.setItem(ACCENT_KEY, accentName);
+            playSFX('click');
+            showToast(`Warna Tampilan Diubah: ${accentName.toUpperCase()} ✨`);
+            renderPosts();
+        }
+
+        /* ==========================================
+           POSTS STORAGE & REACTION LOGIC
+           ========================================== */
+        function initPosts() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                try { posts = JSON.parse(stored); } catch(e) { posts = [...SAMPLE_POSTS]; }
+            } else {
+                posts = [...SAMPLE_POSTS];
+                savePosts();
+            }
+        }
+
+        function savePosts() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+            updateMoodStats();
+        }
+
+        function resetDemoData() {
+            posts = [...SAMPLE_POSTS];
+            savePosts();
+            renderPosts();
+            showToast('Data demo berhasil di-reset! 🔄');
+            playSFX('click');
+        }
+
+        /* ==========================================
+           WEB AUDIO SYNTHESIZER (SFX & BGM)
+           ========================================== */
+        let audioCtx = null;
+        let rainNoiseNode = null;
+        let rainGainNode = null;
+
+        function getAudioContext() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        }
+
+        function playSFX(type) {
+            if (!isSfxEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                const now = ctx.currentTime;
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, now);
+                    osc.frequency.exponentialRampToValueAtTime(200, now + 0.08);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'reaction') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                    osc.start(now);
+                    osc.stop(now + 0.15);
+                } else if (type === 'success') {
+                    [440, 554.37, 659.25, 880].forEach((freq, i) => {
+                        const nOsc = ctx.createOscillator();
+                        const nGain = ctx.createGain();
+                        nOsc.connect(nGain); nGain.connect(ctx.destination);
+                        nOsc.frequency.value = freq;
+                        nGain.gain.setValueAtTime(0.1, now + i * 0.06);
+                        nGain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.06 + 0.2);
+                        nOsc.start(now + i * 0.06); nOsc.stop(now + i * 0.06 + 0.2);
+                    });
+                }
+            } catch(e) {}
+        }
+
+        function toggleSFX() {
+            isSfxEnabled = !isSfxEnabled;
+            const icon = document.getElementById('sfxIcon');
+            if (isSfxEnabled) {
+                icon.className = 'fa-solid fa-volume-high dynamic-accent-text';
+                showToast('Efek Suara: AKTIF 🔊');
+                playSFX('click');
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-gray-400';
+                showToast('Efek Suara: MATI 🔇');
+            }
+        }
+
+        function toggleBGM() {
+            const ctx = getAudioContext();
+            const bgmBtn = document.getElementById('bgmBtn');
+            const bgmIcon = document.getElementById('bgmIcon');
+            const soundWaveIcon = document.getElementById('soundWaveIcon');
+            const bgmText = document.getElementById('bgmText');
+
+            if (!isBgmPlaying) {
+                const bufferSize = ctx.sampleRate * 2;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+
+                for (let i = 0; i < bufferSize; i++) {
+                    let white = Math.random() * 2 - 1;
+                    b0 = 0.99886 * b0 + white * 0.0555179;
+                    b1 = 0.99332 * b1 + white * 0.0750759;
+                    b2 = 0.96900 * b2 + white * 0.1538520;
+                    b3 = 0.86650 * b3 + white * 0.3104856;
+                    b4 = 0.55000 * b4 + white * 0.5329522;
+                    b5 = -0.7616 * b5 - white * 0.0168980;
+                    data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
+                    b6 = white * 0.115926;
+                }
+
+                rainNoiseNode = ctx.createBufferSource();
+                rainNoiseNode.buffer = buffer;
+                rainNoiseNode.loop = true;
+
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = 1000;
+
+                rainGainNode = ctx.createGain();
+                rainGainNode.gain.setValueAtTime(0.01, ctx.currentTime);
+                rainGainNode.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 1.5);
+
+                rainNoiseNode.connect(filter);
+                filter.connect(rainGainNode);
+                rainGainNode.connect(ctx.destination);
+
+                rainNoiseNode.start();
+                isBgmPlaying = true;
+
+                bgmBtn.classList.add('dynamic-accent-subtle-bg', 'dynamic-accent-border');
+                bgmIcon.classList.add('hidden');
+                soundWaveIcon.classList.remove('hidden');
+                bgmText.textContent = "Playing Rain";
+                showToast('🌧️ Rain BGM Aktif');
+            } else {
+                if (rainGainNode) {
+                    rainGainNode.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+                    setTimeout(() => { if (rainNoiseNode) rainNoiseNode.stop(); }, 500);
+                }
+                isBgmPlaying = false;
+                bgmBtn.classList.remove('dynamic-accent-subtle-bg', 'dynamic-accent-border');
+                bgmIcon.classList.remove('hidden');
+                soundWaveIcon.classList.add('hidden');
+                bgmText.textContent = "Rain BGM";
+                showToast('🔇 Rain BGM Dimatikan');
+            }
+        }
+
+        /* ==========================================
+           RENDER & DOM CONTROLS
+           ========================================== */
+        function initCategoryPills() {
+            const container = document.getElementById('categoryPillsContainer');
+            container.innerHTML = CATEGORIES.map(cat => `
+                <button onclick="setCategory('${cat.id}')" 
+                    class="px-3.5 py-1.5 rounded-xl font-semibold transition shrink-0 flex items-center gap-1.5 ${
+                        activeCategory === cat.id 
+                        ? 'dynamic-accent-bg text-white shadow-md' 
+                        : 'glass-panel text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white border'
+                    }">
+                    <span>${cat.icon}</span>
+                    <span>#${cat.label}</span>
+                </button>
+            `).join('');
+        }
+
+        function setCategory(catId) {
+            activeCategory = catId;
+            initCategoryPills();
+            renderPosts();
+            playSFX('click');
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value;
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (query.trim()) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+            renderPosts();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            renderPosts();
+        }
+
+        function getFilteredPosts() {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            const sortBy = document.getElementById('sortSelect').value;
+
+            let result = posts.filter(post => {
+                const matchesCat = (activeCategory === 'Semua' || post.category === activeCategory);
+                const matchesSearch = !searchQuery || 
+                    post.content.toLowerCase().includes(searchQuery) || 
+                    post.nickname.toLowerCase().includes(searchQuery) ||
+                    post.category.toLowerCase().includes(searchQuery);
+                return matchesCat && matchesSearch;
+            });
+
+            if (sortBy === 'newest') {
+                result.sort((a, b) => b.timestamp - a.timestamp);
+            } else if (sortBy === 'popular') {
+                result.sort((a, b) => {
+                    const totalA = (a.reactions.hug || 0) + (a.reactions.fire || 0) + (a.reactions.coffee || 0) + (a.reactions.love || 0);
+                    const totalB = (b.reactions.hug || 0) + (b.reactions.fire || 0) + (b.reactions.coffee || 0) + (b.reactions.love || 0);
+                    return totalB - totalA;
+                });
+            } else if (sortBy === 'hugs') {
+                result.sort((a, b) => (b.reactions.hug || 0) - (a.reactions.hug || 0));
+            }
+
+            return result;
+        }
+
+        function renderPosts() {
+            const grid = document.getElementById('postsGrid');
+            const emptyState = document.getElementById('emptyState');
+            const filtered = getFilteredPosts();
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            grid.innerHTML = filtered.map(post => {
+                const timeAgo = formatTimeAgo(post.timestamp);
+                const themeClass = `theme-${post.theme || 'pink'}`;
+                
+                return `
+                <div class="glass-card rounded-2xl p-5 ${themeClass} flex flex-col justify-between relative group">
+                    
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-9 h-9 rounded-xl bg-slate-200 dark:bg-white/10 flex items-center justify-center text-lg border shrink-0">
+                                    ${post.avatar || '🐱'}
+                                </div>
+                                <div class="truncate">
+                                    <h4 class="text-xs font-bold text-slate-900 dark:text-white truncate">${escapeHTML(post.nickname)}</h4>
+                                    <span class="text-[10px] text-slate-400 dark:text-gray-400">${timeAgo}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-1.5">
+                                <span class="px-2.5 py-1 rounded-full glass-panel text-[10px] font-semibold dynamic-accent-text">
+                                    #${post.category}
+                                </span>
+                                <button onclick="deletePost('${post.id}')" title="Hapus Curhatan" class="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 text-xs p-1 transition">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 dark:text-gray-200 font-normal leading-relaxed mb-4 whitespace-pre-line">
+                            ${escapeHTML(post.content)}
+                        </p>
+                    </div>
+
+                    <div class="pt-3 border-t border-black/5 dark:border-white/10 space-y-3">
+                        
+                        <div class="flex items-center justify-between gap-1 relative">
+                            <button onclick="addReaction(event, '${post.id}', 'hug')" class="flex-1 py-1.5 px-2 rounded-lg glass-panel hover:bg-pink-500/20 text-slate-700 dark:text-gray-300 text-[11px] font-semibold transition flex items-center justify-center gap-1">
+                                <span>🤗</span> <span>Peluk (${post.reactions.hug || 0})</span>
+                            </button>
+                            <button onclick="addReaction(event, '${post.id}', 'fire')" class="flex-1 py-1.5 px-2 rounded-lg glass-panel hover:bg-amber-500/20 text-slate-700 dark:text-gray-300 text-[11px] font-semibold transition flex items-center justify-center gap-1">
+                                <span>🔥</span> <span>Semangat (${post.reactions.fire || 0})</span>
+                            </button>
+                            <button onclick="addReaction(event, '${post.id}', 'love')" class="flex-1 py-1.5 px-2 rounded-lg glass-panel hover:bg-purple-500/20 text-slate-700 dark:text-gray-300 text-[11px] font-semibold transition flex items-center justify-center gap-1">
+                                <span>💖</span> <span>(${post.reactions.love || 0})</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-gray-400 pt-1">
+                            <button onclick="toggleComments('${post.id}')" class="hover:text-slate-900 dark:hover:text-white flex items-center gap-1 transition">
+                                <i class="fa-solid fa-comments dynamic-accent-text"></i>
+                                <span>Balas (${(post.comments || []).length})</span>
+                            </button>
+                            <button onclick="sharePost('${post.id}')" class="hover:text-slate-900 dark:hover:text-white flex items-center gap-1 transition">
+                                <i class="fa-solid fa-share-nodes text-cyan-500"></i>
+                                <span>Salin</span>
+                            </button>
+                        </div>
+
+                        <div id="comments-drawer-${post.id}" class="hidden space-y-2 pt-2 border-t border-black/5 dark:border-white/5">
+                            <div class="max-h-36 overflow-y-auto space-y-2 pr-1" id="comments-list-${post.id}">
+                                ${(post.comments || []).map(c => `
+                                    <div class="bg-slate-100 dark:bg-black/30 p-2 rounded-xl text-[11px] border border-black/5 dark:border-white/5">
+                                        <div class="flex justify-between items-center text-slate-500 dark:text-gray-400 font-semibold mb-0.5">
+                                            <span class="dynamic-accent-text">${escapeHTML(c.nickname)}</span>
+                                            <span class="text-[9px]">${c.time}</span>
+                                        </div>
+                                        <p class="text-slate-800 dark:text-gray-200">${escapeHTML(c.text)}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            
+                            <div class="flex gap-2 pt-1">
+                                <input type="text" id="comment-input-${post.id}" placeholder="Balas anonim..." 
+                                    onkeydown="if(event.key==='Enter') submitComment('${post.id}')"
+                                    class="flex-1 px-3 py-1.5 rounded-lg glass-panel border text-[11px] focus:outline-none">
+                                <button onclick="submitComment('${post.id}')" class="px-3 py-1.5 rounded-lg dynamic-accent-bg text-white text-[11px] font-bold hover:opacity-90 transition">
+                                    Kirim
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        /* ==========================================
+           REACTIONS, COMMENTS & ACTIONS
+           ========================================== */
+        function addReaction(event, postId, type) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+
+            post.reactions[type] = (post.reactions[type] || 0) + 1;
+            savePosts();
+            renderPosts();
+
+            const emojiMap = { hug: '🤗', fire: '🔥', coffee: '☕', love: '💖' };
+            createFloatingEmoji(event.clientX, event.clientY, emojiMap[type]);
+            playSFX('reaction');
+        }
+
+        function createFloatingEmoji(x, y, emojiStr) {
+            const el = document.createElement('div');
+            el.className = 'floating-emoji';
+            el.textContent = emojiStr;
+            el.style.left = `${x - 12}px`;
+            el.style.top = `${y - 20}px`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 900);
+        }
+
+        function toggleComments(postId) {
+            const drawer = document.getElementById(`comments-drawer-${postId}`);
+            if (drawer) {
+                drawer.classList.toggle('hidden');
+                playSFX('click');
+            }
+        }
+
+        function submitComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            const text = input.value.trim();
+            if (!text) return;
+
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+            if (!post.comments) post.comments = [];
+
+            post.comments.push({
+                id: 'c_' + Date.now(),
+                nickname: 'Anonim 💬',
+                text: text,
+                time: 'Baru saja'
+            });
+
+            savePosts();
+            renderPosts();
+            playSFX('success');
+            showToast('Balasan anonim terkirim! 💬');
+            
+            setTimeout(() => {
+                const drawer = document.getElementById(`comments-drawer-${postId}`);
+                if (drawer) drawer.classList.remove('hidden');
+            }, 50);
+        }
+
+        function deletePost(postId) {
+            if (confirm("Apakah kamu yakin ingin menghapus curhatan ini?")) {
+                posts = posts.filter(p => p.id !== postId);
+                savePosts();
+                renderPosts();
+                playSFX('click');
+                showToast('Curhatan berhasil dihapus 🗑️');
+            }
+        }
+
+        function sharePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+
+            const textToCopy = `"${post.content}" - Curhatan Anonim di RuangRasa.`;
+            const tempInput = document.createElement('textarea');
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            playSFX('click');
+            showToast('Teks curhatan disalin ke clipboard! 📋');
+        }
+
+        /* ==========================================
+           MODAL 1: TULIS CURHAT BARU LOGIC
+           ========================================== */
+        function initAvatarPicker() {
+            const container = document.getElementById('avatarPickerContainer');
+            container.innerHTML = AVATARS.map(av => `
+                <button type="button" onclick="selectAvatar('${av}')" 
+                    class="w-10 h-10 rounded-xl glass-panel text-lg flex items-center justify-center shrink-0 transition border ${
+                        selectedAvatar === av ? 'border-pink-500 scale-110' : 'border-black/5 dark:border-white/10'
+                    }">
+                    ${av}
+                </button>
+            `).join('');
+        }
+
+        function selectAvatar(av) {
+            selectedAvatar = av;
+            initAvatarPicker();
+            playSFX('click');
+        }
+
+        function generateRandomNick() {
+            const nick = RANDOM_NICKS[Math.floor(Math.random() * RANDOM_NICKS.length)];
+            document.getElementById('nicknameInput').value = nick;
+            selectedAvatar = nick.slice(-2).trim();
+            initAvatarPicker();
+        }
+
+        function updateCharCounter() {
+            const val = document.getElementById('postContentInput').value;
+            document.getElementById('charCounter').textContent = `${val.length} / 500`;
+        }
+
+        function openCreateModal() {
+            const modal = document.getElementById('createModal');
+            const card = document.getElementById('createModalCard');
+            modal.classList.add('modal-active');
+            card.classList.remove('scale-95');
+            card.classList.add('scale-100');
+            playSFX('click');
+        }
+
+        function closeCreateModal() {
+            const modal = document.getElementById('createModal');
+            const card = document.getElementById('createModalCard');
+            card.classList.remove('scale-100');
+            card.classList.add('scale-95');
+            modal.classList.remove('modal-active');
+        }
+
+        function submitNewPost(e) {
+            e.preventDefault();
+            const nick = document.getElementById('nicknameInput').value.trim();
+            const category = document.getElementById('categorySelect').value;
+            const theme = document.getElementById('themeSelect').value;
+            const content = document.getElementById('postContentInput').value.trim();
+
+            if (!nick || !content) return;
+
+            const newPost = {
+                id: 'post_' + Date.now(),
+                avatar: selectedAvatar,
+                nickname: nick,
+                category: category,
+                theme: theme,
+                content: content,
+                timestamp: Date.now(),
+                reactions: { hug: 0, fire: 0, coffee: 0, love: 0 },
+                comments: []
+            };
+
+            posts.unshift(newPost);
+            savePosts();
+            renderPosts();
+
+            document.getElementById('createForm').reset();
+            updateCharCounter();
+            closeCreateModal();
+
+            try {
+                confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+            } catch(e) {}
+
+            playSFX('success');
+            showToast('Curhatan barumu berhasil diterbitkan! 🎉');
+            scrollToTop();
+        }
+
+        /* ==========================================
+           MODAL 2: GACHA LOGIC
+           ========================================== */
+        function openGachaModal() {
+            rollGacha();
+            const modal = document.getElementById('gachaModal');
+            modal.classList.add('modal-active');
+            playSFX('click');
+        }
+
+        function closeGachaModal() {
+            document.getElementById('gachaModal').classList.remove('modal-active');
+        }
+
+        function rollGacha() {
+            if (posts.length === 0) return;
+            const randomPost = posts[Math.floor(Math.random() * posts.length)];
+            const container = document.getElementById('gachaCardContainer');
+            
+            container.style.opacity = '0';
+            container.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                container.innerHTML = `
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-2xl">${randomPost.avatar || '🐱'}</span>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-white">${escapeHTML(randomPost.nickname)}</h4>
+                                <span class="text-[10px] dynamic-accent-text">#${randomPost.category}</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-700 dark:text-gray-200 italic leading-relaxed my-3">
+                            "${escapeHTML(randomPost.content)}"
+                        </p>
+                    </div>
+                    <div class="flex justify-between items-center text-[10px] text-gray-400 pt-2 border-t border-black/5 dark:border-white/10">
+                        <span>${formatTimeAgo(randomPost.timestamp)}</span>
+                        <span>🤗 ${randomPost.reactions.hug || 0} Pelukan</span>
+                    </div>
+                `;
+                container.style.opacity = '1';
+                container.style.transform = 'scale(1)';
+            }, 150);
+
+            playSFX('click');
+        }
+
+        /* ==========================================
+           COMMUNITY MOOD & QUOTES
+           ========================================== */
+        function updateMoodStats() {
+            let totalHugs = 0;
+            let totalFires = 0;
+            posts.forEach(p => {
+                totalHugs += (p.reactions.hug || 0);
+                totalFires += (p.reactions.fire || 0) + (p.reactions.coffee || 0) + (p.reactions.love || 0);
+            });
+            const grandTotal = totalHugs + totalFires || 100;
+            const hugPct = Math.round((totalHugs / grandTotal) * 100) || 38;
+            const firePct = 100 - hugPct;
+
+            document.getElementById('moodStatsText').textContent = `${hugPct}% Peluk • ${firePct}% Semangat`;
+            document.getElementById('moodBarHug').style.width = `${hugPct}%`;
+            document.getElementById('moodBarFire').style.width = `${firePct}%`;
+        }
+
+        function generateNewQuote() {
+            const el = document.getElementById('dailyQuoteText');
+            el.style.opacity = '0';
+            setTimeout(() => {
+                const randomQ = DAILY_QUOTES[Math.floor(Math.random() * DAILY_QUOTES.length)];
+                el.textContent = `"${randomQ}"`;
+                el.style.opacity = '1';
+            }, 200);
+            playSFX('click');
+        }
+
+        /* ==========================================
+           HELPERS & CANVAS PARTICLES
+           ========================================== */
+        function formatTimeAgo(timestamp) {
+            const diffMs = Date.now() - timestamp;
+            const diffMins = Math.floor(diffMs / 60000);
+            if (diffMins < 1) return 'Baru saja';
+            if (diffMins < 60) return `${diffMins} jam yang lalu`;
+            const diffHours = Math.floor(diffMins / 60);
+            if (diffHours < 24) return `${diffHours} jam yang lalu`;
+            return `${Math.floor(diffHours / 24)} hari yang lalu`;
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showToast(msg) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'glass-panel text-slate-900 dark:text-white text-xs font-semibold px-4 py-2.5 rounded-xl border shadow-xl flex items-center gap-2 transform translate-y-4 opacity-0 transition-all duration-300';
+            toast.innerHTML = `<span>${msg}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-4', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        function initBgCanvas() {
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+            let stars = [];
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            for (let i = 0; i < 40; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.8 + 0.5,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.015 + 0.005
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                stars.forEach(s => {
+                    s.alpha += s.speed;
+                    if (s.alpha > 1 || s.alpha < 0.1) s.speed = -s.speed;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(139, 92, 246, ${s.alpha * 0.4})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+</body>
+</html>
